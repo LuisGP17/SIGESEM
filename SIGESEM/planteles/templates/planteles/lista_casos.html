@@ -1,0 +1,65 @@
+{% extends "planteles/base.html" %}
+
+{% block contenido %}
+<h2 class="mb-4">{{ titulo }}</h2>
+
+<div class="card shadow rounded-4">
+    <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="card-title m-0">Casos Médico-Legales</h5>
+            <div>
+                <a href="{% url 'nuevo_caso' %}" class="btn btn-danger btn-sm">
+                    <i class="bi bi-clipboard-plus"></i> Registrar caso
+                </a>
+            </div>
+        </div>
+
+        <div class="table-responsive rounded-4">
+            <table class="table table-hover table-bordered align-middle text-center">
+                <thead class="table-dark sticky-top">
+                    <tr>
+                        <th>#</th>
+                        <th>Matrícula</th>
+                        <th>Nombre completo</th>
+                        <th>Plantel</th>
+                        <th>Fecha del caso</th>
+                        <th>Descripción</th>
+                        <th>Acciones adoptadas</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for caso in objetos %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ caso.id_discente.matricula }}</td>
+                        <td class="text-start">{{ caso.id_discente.nombre }} {{ caso.id_discente.apellido }}</td>
+                        <td>{{ caso.id_discente.id_plantel.nombre }}</td>
+                        <td>{{ caso.fecha_caso|date:"d/m/Y" }}</td>
+                        <td class="text-start">{{ caso.descripcion }}</td>
+                        <td class="text-start">{{ caso.acciones_adoptadas }}</td>
+                        <td>
+                            <!-- Ícono Editar -->
+                            <a href="{% url 'editar_caso' caso.id %}" class="btn btn-sm btn-warning me-2" title="Editar">
+                                <i class="bi bi-pencil-square fs-5"></i>
+                            </a>
+
+                            <!-- Ícono Eliminar -->
+                            <a href="{% url 'eliminar_caso' caso.id %}" class="btn btn-sm btn-danger" title="Eliminar"
+                                onclick="return confirm('¿Estás seguro que deseas eliminar este caso?');">
+                                <i class="bi bi-trash fs-5"></i>
+                            </a>
+                        </td>
+
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="8" class="text-center text-muted">No hay casos médico-legales registrados.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

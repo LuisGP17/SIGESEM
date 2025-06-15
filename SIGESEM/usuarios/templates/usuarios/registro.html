@@ -1,0 +1,75 @@
+{% extends 'planteles/base.html' %}
+
+{% block contenido %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">Registrar nuevo usuario</div>
+            <div class="card-body">
+                
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        {{ form.username.label_tag }} 
+                        {{ form.username }}
+                        {% for error in form.username.errors %}
+                          <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.first_name.label_tag }} 
+                        {{ form.first_name }}
+                        {% for error in form.first_name.errors %}
+                          <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.last_name.label_tag }} 
+                        {{ form.last_name }}
+                        {% for error in form.last_name.errors %}
+                          <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.email.label_tag }} 
+                        {{ form.email }}
+                        {% for error in form.email.errors %}
+                          <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.password1.label_tag }} 
+                        {{ form.password1 }}
+                        {% for error in form.password1.errors %}
+                          <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.password2.label_tag }} 
+                        {{ form.password2 }}
+                        {% for error in form.password2.errors %}
+                          <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.group.label_tag }}
+                        {{ form.group }}
+                        {% for error in form.group.errors %}
+                          <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Registrar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

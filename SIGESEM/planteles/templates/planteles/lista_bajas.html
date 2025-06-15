@@ -1,0 +1,64 @@
+{% extends "planteles/base.html" %}
+
+{% block contenido %}
+<h2 class="mb-4">{{ titulo }}</h2>
+
+<div class="card shadow rounded-4">
+  <div class="card-body">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h5 class="card-title m-0"></h5>
+      <div>
+        <a href="{% url 'nueva_baja' %}" class="btn btn-danger btn-sm">
+          <i class="bi bi-person-dash-fill"></i> Registrar baja
+        </a>
+      </div>
+    </div>
+
+    <div class="table-responsive rounded-4">
+      <table class="table table-hover table-bordered align-middle text-center">
+        <thead class="table-dark sticky-top">
+          <tr>
+            <th>#</th>
+            <th>Matrícula</th>
+            <th>Nombre completo</th>
+            <th>Plantel</th>
+            <th>Tipo de baja</th>
+            <th>Fecha</th>
+            <th>Motivo</th>
+            <th>Acciones</th>  <!-- Nueva columna para acciones -->
+          </tr>
+        </thead>
+        <tbody>
+          {% for baja in objetos %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ baja.id_discente.matricula }}</td>
+            <td class="text-start">{{ baja.id_discente.nombre }} {{ baja.id_discente.apellido }}</td>
+            <td>{{ baja.id_discente.id_plantel.nombre }}</td>
+            <td>{{ baja.tipo_baja.nombre }}</td>
+            <td>{{ baja.fecha_baja|date:"d/m/Y" }}</td>
+            <td class="text-start">{{ baja.motivo }}</td>
+            <td>
+              <a href="{% url 'editar_baja' baja.id %}" class="btn btn-sm btn-warning me-2" title="Editar">
+                <i class="bi bi-pencil-square"></i>
+              </a>
+              <form action="{% url 'eliminar_baja' baja.id %}" method="post" class="d-inline">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-sm btn-danger" title="Eliminar"
+                        onclick="return confirm('¿Seguro que quieres eliminar esta baja?');">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </form>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="8" class="text-center text-muted">No hay bajas registradas.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

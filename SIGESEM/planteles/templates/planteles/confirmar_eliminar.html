@@ -1,0 +1,11 @@
+{% extends 'planteles/base.html' %}
+{% block contenido %}
+<h2>Confirmar eliminación</h2>
+<p>¿Está seguro que desea eliminar el plantel <strong>{{ plantel.nombre }}</strong>?</p>
+
+<form method="post">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-danger">Eliminar</button>
+  <a href="{% url 'lista_planteles' %}" class="btn btn-secondary ms-2">Cancelar</a>
+</form>
+{% endblock %}

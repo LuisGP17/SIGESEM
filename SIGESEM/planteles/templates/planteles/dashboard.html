@@ -1,0 +1,40 @@
+{% extends 'planteles/base.html' %}
+{% block contenido %}
+<div class="container mt-4">
+  <h2 class="mb-4">Dashboard general</h2>
+  <div class="row">
+    <div class="col-md-3">
+      <div class="card text-white bg-primary mb-3 shadow">
+        <div class="card-body">
+          <h5 class="card-title">Discentes</h5>
+          <p class="card-text fs-3">{{ total_discentes }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card text-white bg-danger mb-3 shadow">
+        <div class="card-body">
+          <h5 class="card-title">Bajas</h5>
+          <p class="card-text fs-3">{{ total_bajas }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card text-white bg-warning mb-3 shadow">
+        <div class="card-body">
+          <h5 class="card-title">Casos médico-legales</h5>
+          <p class="card-text fs-3">{{ total_casos }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card text-white bg-success mb-3 shadow">
+        <div class="card-body">
+          <h5 class="card-title">Planteles</h5>
+          <p class="card-text fs-3">{{ total_planteles }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,81 @@
+{% extends "planteles/base.html" %}
+
+{% block contenido %}
+<h2 class="mb-4">{{ titulo }}</h2>
+
+<div class="card shadow rounded-4">
+  <div class="card-body">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h5 class="card-title m-0"></h5>
+      <div>
+        <a href="{% url 'nuevo_discente' %}" class="btn btn-success btn-sm">
+          <i class="bi bi-plus-circle"></i> Agregar
+        </a>
+        <a href="{% url 'lista' %}" class="btn btn-sm btn-outline-primary">Todos</a>
+        <a href="{% url 'lista' %}?genero=M" class="btn btn-sm btn-outline-primary">Masculino</a>
+        <a href="{% url 'lista' %}?genero=F" class="btn btn-sm btn-outline-primary">Femenino</a>
+        <a href="{% url 'lista' %}?genero=O" class="btn btn-sm btn-outline-primary">Otro</a>
+      </div>
+    </div>
+
+    <div class="table-responsive rounded-4">
+      <table class="table table-hover table-bordered align-middle text-center">
+        <thead class="table-dark sticky-top">
+          <tr>
+            <th>Matrícula</th>
+            <th>Nombre completo</th>
+            <th>Género</th>
+            <th>F. Nacimiento</th>
+            <th>Plantel</th>
+            <th>Categoría</th>
+            <th>Entidad</th>
+            <th>F. Ingreso</th>
+            <th>Antigüedad</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for discente in objetos %}
+          <tr>
+            <td>{{ discente.matricula }}</td>
+            <td class="text-start">{{ discente.nombre }} {{ discente.apellido }}</td>
+            <td>
+              <span
+                class="badge {% if discente.genero == 'M' %}bg-primary{% elif discente.genero == 'F' %}bg-danger{% else %}bg-secondary{% endif %}">
+                {{ discente.get_genero_display }}
+              </span>
+            </td>
+            <td>{{ discente.fecha_nacimiento|date:"d/m/Y" }}</td>
+            <td>{{ discente.id_plantel.nombre }}</td>
+            <td>{{ discente.id_categoria.nombre_categoria }}</td>
+            <td>{{ discente.id_entidad.nombre_entidad }}</td>
+            <td>{{ discente.fecha_ingreso|date:"d/m/Y" }}</td>
+            <td>{{ discente.antiguedad }}</td>
+            <td>
+              <!-- Ícono Editar -->
+              <a href="{% url 'editar_discente' discente.id %}" class="btn btn-sm btn-warning me-2" title="Editar">
+                <i class="bi bi-pencil-square fs-5"></i>
+              </a>
+
+              <!-- Botón Dar de baja -->
+              <form action="{% url 'nueva_baja' %}" method="post" class="d-inline">
+                {% csrf_token %}
+                <input type="hidden" name="matricula" value="{{ discente.matricula }}">
+                <button type="submit" class="btn btn-sm btn-danger" title="Dar de baja"
+                  onclick="return confirm('¿Estás seguro de dar de baja a este discente?');">
+                  <i class="bi bi-trash fs-5"></i>
+                </button>
+              </form>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="10" class="text-center text-muted">No hay discentes registrados.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}
