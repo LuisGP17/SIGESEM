@@ -7,9 +7,14 @@
     <div class="card-body">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h5 class="card-title m-0">Casos Médico-Legales</h5>
-            <div>
+            <div class="d-flex gap-2">
+                {% if puede_crud %}
                 <a href="{% url 'nuevo_caso' %}" class="btn btn-danger btn-sm">
                     <i class="bi bi-clipboard-plus"></i> Registrar caso
+                </a>
+                {% endif %}
+                <a href="{% url 'exportar_casos_excel' %}" class="btn btn-outline-success btn-sm">
+                    <i class="bi bi-file-earmark-excel"></i> Generar reporte Excel
                 </a>
             </div>
         </div>
@@ -25,7 +30,9 @@
                         <th>Fecha del caso</th>
                         <th>Descripción</th>
                         <th>Acciones adoptadas</th>
+                        {% if puede_crud %}
                         <th>Acciones</th>
+                        {% endif %}
                     </tr>
                 </thead>
                 <tbody>
@@ -38,23 +45,22 @@
                         <td>{{ caso.fecha_caso|date:"d/m/Y" }}</td>
                         <td class="text-start">{{ caso.descripcion }}</td>
                         <td class="text-start">{{ caso.acciones_adoptadas }}</td>
+                        {% if puede_crud %}
                         <td>
-                            <!-- Ícono Editar -->
                             <a href="{% url 'editar_caso' caso.id %}" class="btn btn-sm btn-warning me-2" title="Editar">
                                 <i class="bi bi-pencil-square fs-5"></i>
                             </a>
 
-                            <!-- Ícono Eliminar -->
                             <a href="{% url 'eliminar_caso' caso.id %}" class="btn btn-sm btn-danger" title="Eliminar"
                                 onclick="return confirm('¿Estás seguro que deseas eliminar este caso?');">
                                 <i class="bi bi-trash fs-5"></i>
                             </a>
                         </td>
-
+                        {% endif %}
                     </tr>
                     {% empty %}
                     <tr>
-                        <td colspan="8" class="text-center text-muted">No hay casos médico-legales registrados.</td>
+                        <td colspan="{% if puede_crud %}8{% else %}7{% endif %}" class="text-center text-muted">No hay casos médico-legales registrados.</td>
                     </tr>
                     {% endfor %}
                 </tbody>

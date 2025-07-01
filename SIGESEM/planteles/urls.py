@@ -12,6 +12,9 @@ urlpatterns = [
     path('discente/editar/<int:pk>/',
          views.editar_discente, name='editar_discente'),
     path('discentes/', views.lista_discentes, name='lista'),
+    path('discentes/exportar/', views.exportar_discentes_excel,
+         name='exportar_discentes_excel'),
+
 
     # Planteles
     path('planteles/', views.lista_planteles, name='lista_planteles'),
@@ -30,6 +33,10 @@ urlpatterns = [
     path('casos/', views.lista_casos, name='lista_casos'),
     path('editar/<int:id>/', views.editar_caso, name='editar_caso'),
     path('casos/eliminar/<int:pk>/', views.eliminar_caso, name='eliminar_caso'),
+    path('exportar/casos/excel/', views.exportar_casos_excel,
+         name='exportar_casos_excel'),
+    path('exportar/casos/pdf/', views.exportar_casos_pdf,
+         name='exportar_casos_pdf'),
 
     # Bajas
     path('tipo-baja/nuevo/', nuevo_tipo_baja, name='nuevo_tipo_baja'),
@@ -37,6 +44,8 @@ urlpatterns = [
     path('bajas/', views.lista_bajas, name='lista_bajas'),
     path('bajas/editar/<int:id>/', views.editar_baja, name='editar_baja'),
     path('bajas/eliminar/<int:id>/', views.eliminar_baja, name='eliminar_baja'),
+    path('bajas/exportar_excel/', exportar_bajas_excel,
+         name='exportar_bajas_excel'),
 
     # Usuarios
     path('usuarios/', views.lista_usuarios, name='lista_usuarios'),

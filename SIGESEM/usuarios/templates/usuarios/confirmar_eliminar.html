@@ -1,0 +1,23 @@
+{% extends "planteles/base.html" %}
+
+{% block contenido %}
+<h2 class="mb-4 text-danger">Confirmar eliminación</h2>
+
+<div class="card border-danger shadow">
+  <div class="card-body">
+    <p>¿Estás seguro de que deseas eliminar al usuario <strong>{{ usuario.username }}</strong>?</p>
+
+    <form method="post">
+      {% csrf_token %}
+      <div class="mt-4 d-flex justify-content-between">
+        <a href="{% url 'lista_usuarios' %}" class="btn btn-secondary">
+          <i class="bi bi-x-circle"></i> Cancelar
+        </a>
+        <button type="submit" class="btn btn-danger">
+          <i class="bi bi-trash"></i> Eliminar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

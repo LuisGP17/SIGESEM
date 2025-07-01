@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 
@@ -13,31 +14,39 @@
       display: flex;
       flex-direction: column;
     }
+
     .wrapper {
       flex: 1;
       display: flex;
     }
+
     .sidebar {
       width: 240px;
-      background-color: #343a40;
+      background-color: #0047AB;
+      /* Azul cobalto */
+      ;
       padding-top: 1rem;
       height: 100vh;
       position: fixed;
     }
+
     .sidebar a {
       color: #fff;
       padding: 10px;
       display: block;
       text-decoration: none;
     }
+
     .sidebar a:hover {
       background-color: #495057;
     }
+
     .content {
       margin-left: 240px;
       padding: 1rem;
       width: 100%;
     }
+
     .topbar {
       background-color: #212529;
       padding: 0.5rem 1rem;
@@ -53,15 +62,22 @@
   {% if user.is_authenticated %}
   <div class="wrapper">
     <div class="sidebar">
-      <h4 class="text-white text-center">SIGESEM</h4>
+      <div class="text-center mb-3">
+        <img src="{% static 'imagenes/icono.png' %}" alt="Logo SIGESEM" class="img-fluid mb-2"
+          style="max-height: 100px;">
+
+      </div>
       <a href="{% url 'dashboard' %}"><i class="bi bi-speedometer2"></i> Dashboard</a>
       <a href="{% url 'lista' %}"><i class="bi bi-person-lines-fill"></i> Discentes</a>
       <a href="{% url 'lista_bajas' %}"><i class="bi bi-x-circle"></i> Bajas</a>
       <a href="{% url 'lista_casos' %}"><i class="bi bi-hospital"></i> Casos médico-legales</a>
+      {% if user.perfilusuario.rol == 'administrador' %}
       <a href="{% url 'lista_planteles' %}"><i class="bi bi-building"></i> Planteles</a>
-      {% if user.is_superuser %}
       <a href="{% url 'lista_usuarios' %}"><i class="bi bi-people"></i> Usuarios</a>
+      {% elif user.perfilusuario.rol == 'consulta' %}
+      <a href="{% url 'lista_planteles' %}"><i class="bi bi-building"></i> Planteles</a>
       {% endif %}
+
     </div>
 
     <div class="content">
@@ -77,23 +93,26 @@
 
       {% if messages %}
       {% for message in messages %}
-      <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show mt-3" role="alert">
+      <div
+        class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show mt-3"
+        role="alert">
         {{ message }}
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
       </div>
       {% endfor %}
       {% endif %}
-  {% else %}
-    <div class="container mt-4">
-  {% endif %}
+      {% else %}
+      <div class="container mt-4">
+        {% endif %}
 
-      {% block contenido %}{% endblock %}
+        {% block contenido %}{% endblock %}
 
-  {% if not user.is_authenticated %}
+        {% if not user.is_authenticated %}
+      </div>
+      {% endif %}
     </div>
-  {% endif %}
-  </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

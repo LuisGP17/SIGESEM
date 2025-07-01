@@ -5,19 +5,31 @@
 
 <div class="card shadow rounded-4">
   <div class="card-body">
-    <div class="d-flex justify-content-between align-items-center mb-3">
+
+    <!-- Encabezado con filtros y botón de agregar o reporte -->
+    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
       <h5 class="card-title m-0"></h5>
-      <div>
+
+      <div class="d-flex gap-2">
+        {% if puede_crud %}
         <a href="{% url 'nuevo_discente' %}" class="btn btn-success btn-sm">
           <i class="bi bi-plus-circle"></i> Agregar
         </a>
+        {% endif %}
+
         <a href="{% url 'lista' %}" class="btn btn-sm btn-outline-primary">Todos</a>
         <a href="{% url 'lista' %}?genero=M" class="btn btn-sm btn-outline-primary">Masculino</a>
         <a href="{% url 'lista' %}?genero=F" class="btn btn-sm btn-outline-primary">Femenino</a>
         <a href="{% url 'lista' %}?genero=O" class="btn btn-sm btn-outline-primary">Otro</a>
+
+        <a href="{% url 'exportar_discentes_excel' %}?genero={{ request.GET.genero }}"
+          class="btn btn-sm btn-outline-success">
+          <i class="bi bi-file-earmark-excel"></i> Generar reporte
+        </a>
       </div>
     </div>
 
+    <!-- Tabla de discentes -->
     <div class="table-responsive rounded-4">
       <table class="table table-hover table-bordered align-middle text-center">
         <thead class="table-dark sticky-top">
@@ -31,7 +43,9 @@
             <th>Entidad</th>
             <th>F. Ingreso</th>
             <th>Antigüedad</th>
+            {% if puede_crud %}
             <th>Acciones</th>
+            {% endif %}
           </tr>
         </thead>
         <tbody>
@@ -51,13 +65,12 @@
             <td>{{ discente.id_entidad.nombre_entidad }}</td>
             <td>{{ discente.fecha_ingreso|date:"d/m/Y" }}</td>
             <td>{{ discente.antiguedad }}</td>
+
+            {% if puede_crud %}
             <td>
-              <!-- Ícono Editar -->
               <a href="{% url 'editar_discente' discente.id %}" class="btn btn-sm btn-warning me-2" title="Editar">
                 <i class="bi bi-pencil-square fs-5"></i>
               </a>
-
-              <!-- Botón Dar de baja -->
               <form action="{% url 'nueva_baja' %}" method="post" class="d-inline">
                 {% csrf_token %}
                 <input type="hidden" name="matricula" value="{{ discente.matricula }}">
@@ -67,6 +80,7 @@
                 </button>
               </form>
             </td>
+            {% endif %}
           </tr>
           {% empty %}
           <tr>
